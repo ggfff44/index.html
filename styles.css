@@ -1,50 +1,52 @@
 body {
-    background-image: url('https://img.freepik.com/premium-vector/embossed-geometric-square-black-background_51543-525.jpg');
+    background-image: url('https://i.pinimg.com/originals/66/14/b5/6614b5564b7874dcfb2bed2a321821c1.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
     font-family: Arial, sans-serif;
+    color: white;
 }
 
 .container {
     text-align: center;
-    margin-top: 20px;
-}
-
-h1 {
-    color: white;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin: 50px auto;
+    width: 300px;
 }
 
 .balance {
-    color: white;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.restart-button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 2px;
-    cursor: pointer;
-    border-radius: 5px;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    max-width: 360px;
-    margin: 0 auto;
+    grid-gap: 10px;
+    margin-bottom: 20px;
 }
 
-/* Modify the square style to hide their content */
 .square {
     width: 100px;
     height: 100px;
-    background-color: black; /* Set the background color to black to hide content */
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
     cursor: pointer;
+}
+
+#restart {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
 }
