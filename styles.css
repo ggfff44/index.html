@@ -34,18 +34,19 @@ body {
 
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, 1fr); /* Use "1fr" for flexible width columns */
     grid-gap: 10px;
     background-color: black;
     padding: 10px;
     border-radius: 10px;
     margin-top: 20px; /* Add some top margin to separate the logo and board */
     max-width: 350px; /* Set a max width for the board */
+    width: 100%; /* Ensure the board takes up the available width */
 }
 
 .square {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    padding-top: 100%; /* Create a square by setting padding-top to the same value as width */
     background-color: black;
     cursor: pointer;
     display: flex;
