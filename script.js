@@ -1,64 +1,61 @@
-const squares = document.querySelectorAll('.square');
-const scoreDisplay = document.getElementById('score');
+const board = document.getElementById('board');
+const balanceDisplay = document.getElementById('balance');
 const restartButton = document.getElementById('restart-button');
 
-let robux = 0;
-let selectedSquares = [];
+let balance = 0;
 let isGameOver = false;
 
-// Shuffle the squares
-function shuffle() {
-    squares.forEach(square => {
-        const randomPosition = Math.floor(Math.random() * 9);
-        square.style.order = randomPosition;
-    });
+const images = [
+    'https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp',
+    'https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png',
+];
+
+const shuffledImages = [...images, ...images].sort(() => Math.random() - 0.5);
+
+// Create a 3x3 grid of squares
+for (let i = 0; i < 9; i++) {
+    const square = document.createElement('div');
+    square.classList.add('square');
+    square.dataset.index = i;
+    square.style.backgroundImage = `url(${shuffledImages[i]})`;
+    board.appendChild(square);
 }
 
 // Add click event to each square
-squares.forEach(square => {
+const squares = document.querySelectorAll('.square');
+squares.forEach((square) => {
     square.addEventListener('click', () => {
-        if (isGameOver || square === selectedSquares[0]) return;
-        square.classList.add('selected');
-        selectedSquares.push(square);
-        if (selectedSquares.length === 2) {
-            const [firstSquare, secondSquare] = selectedSquares;
-            const value1 = firstSquare.getAttribute('data-value');
-            const value2 = secondSquare.getAttribute('data-value');
-            if (value1 === value2) {
-                robux += 100;
-                scoreDisplay.textContent = `Robux: ${robux}`;
-                selectedSquares = [];
-            } else {
-                setTimeout(() => {
-                    firstSquare.classList.remove('selected');
-                    secondSquare.classList.remove('selected');
-                    selectedSquares = [];
-                }, 1000);
-            }
-            checkWin();
+        if (isGameOver) return;
+        const index = square.dataset.index;
+        const clickedImage = shuffledImages[index];
+        if (clickedImage === 'https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp') {
+            balance += 100;
+            balanceDisplay.textContent = `Robux: ${balance}`;
+            square.style.pointerEvents = 'none'; // Disable clicking on matched square
+        } else if (clickedImage === 'https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png') {
+            square.style.backgroundImage = 'url("https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png")'; // Show bomb image
+            isGameOver = true;
         }
+        checkWin();
     });
 });
 
 // Check if the game is won
 function checkWin() {
-    if (document.querySelectorAll('.selected').length === 9) {
+    if (document.querySelectorAll('.square[style*="background-image: url(\\"https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp\\")"]').length === 9) {
+        balanceDisplay.textContent = 'You Win!';
         isGameOver = true;
-        scoreDisplay.textContent = 'You Win!';
     }
 }
 
 // Restart the game
 restartButton.addEventListener('click', () => {
-    robux = 0;
-    scoreDisplay.textContent = `Robux: ${robux}`;
+    balance = 0;
+    balanceDisplay.textContent = `Robux: ${balance}`;
     isGameOver = false;
-    selectedSquares = [];
-    squares.forEach(square => {
-        square.classList.remove('selected');
+    squares.forEach((square) => {
+        square.style.backgroundImage = '';
+        square.style.pointerEvents = 'auto';
     });
-    shuffle();
+    shuffledImages.sort(() => Math.random() - 0.5);
 });
-
-// Initialize the game
-shuffle();
