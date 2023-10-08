@@ -16,8 +16,9 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center the container contents horizontally */
+    align-items: flex-start;
     margin-top: 20px;
+    margin-left: 20px;
 }
 
 .brand-logo img {
@@ -34,19 +35,16 @@ body {
 
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Use "1fr" for flexible width columns */
+    grid-template-columns: repeat(3, 100px);
     grid-gap: 10px;
     background-color: black;
     padding: 10px;
     border-radius: 10px;
-    margin-top: 20px; /* Add some top margin to separate the logo and board */
-    max-width: 350px; /* Set a max width for the board */
-    width: 100%; /* Ensure the board takes up the available width */
 }
 
 .square {
-    width: 100%;
-    padding-top: 100%; /* Create a square by setting padding-top to the same value as width */
+    width: 100px;
+    height: 100px;
     background-color: black;
     cursor: pointer;
     display: flex;
@@ -55,26 +53,18 @@ body {
     font-size: 24px;
     color: grey;
     border-radius: 5px;
-    position: relative; /* Added position relative */
 }
 
-.square .cover {
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#restart {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-/* Add classes for good and bomb squares */
-.square.good {
-    background-color: green;
-}
-
-.square.bomb {
-    background-color: red;
+#restart:hover {
+    background-color: #2980b9;
 }
