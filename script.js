@@ -1,83 +1,33 @@
-const balanceDisplay = document.getElementById('balanceDisplay');
-const board = document.getElementById('board');
-const restartButton = document.getElementById('restartButton');
-let balance = 0;
-let isGameOver = false;
+document.addEventListener("DOMContentLoaded", () => {
+    const squares = document.querySelectorAll(".square");
+    const balanceDisplay = document.getElementById("balance");
+    const restartButton = document.getElementById("restart");
+    let balance = 0;
 
-// Shuffle array elements randomly
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-// Create an array of indexes for bomb squares
-const bombIndexes = Array.from({ length: 3 }, (_, index) => index);
-shuffleArray(bombIndexes);
-
-// Create a 3x3 grid of squares
-for (let i = 0; i < 9; i++) {
-    const square = document.createElement('div');
-    square.classList.add('square');
-    square.dataset.index = i;
-
-    // Check if this square is a bomb
-    const isBomb = bombIndexes.includes(i);
-    if (isBomb) {
-        square.dataset.isBomb = 'true';
-    }
-
-    square.addEventListener('click', () => {
-        if (isGameOver) return;
-        const index = square.dataset.index;
-        const isBomb = square.dataset.isBomb === 'true';
-
-        // Reveal square content
-        square.style.backgroundImage = `url(${isBomb ? 'https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Robux_2019_Logo_Black.svg/450px-Robux_2019_Logo_Black.svg.png'})`;
-        square.style.pointerEvents = 'none'; // Disable clicking on matched square
-
-        if (!isBomb) {
-            balance += 100; // +100 robux for a right guess
-            balanceDisplay.textContent = `Robux: ${balance}`;
-        } else {
-            isGameOver = true;
-            balanceDisplay.textContent = 'Game Over. Click Restart to play again.';
-        }
-        checkWin();
-    });
-
-    board.appendChild(square);
-}
-
-restartButton.addEventListener('click', () => {
-    restartGame();
-});
-
-function restartGame() {
-    isGameOver = false;
-    balance = 0;
-    balanceDisplay.textContent = 'Robux: 0';
-
-    // Reset the board
-    const squares = document.querySelectorAll('.square');
     squares.forEach((square) => {
-        square.style.backgroundImage = 'none';
-        square.style.pointerEvents = 'auto';
+        square.addEventListener("click", () => {
+            const value = square.getAttribute("data-value");
+
+            if (value === "robux") {
+                balance += 100;
+            } else if (value === "bomb") {
+                balance -= 80;
+            }
+
+            square.style.backgroundColor = value === "robux" ? "#FFD700" : "#FF0000";
+            square.textContent = value === "robux" ? "💰" : "💣";
+
+            balanceDisplay.textContent = balance;
+        });
     });
 
-    // Reshuffle bomb positions
-    shuffleArray(bombIndexes);
-    squares.forEach((square, index) => {
-        const isBomb = bombIndexes.includes(index);
-        square.dataset.isBomb = isBomb ? 'true' : 'false';
-    });
-}
+    restartButton.addEventListener("click", () => {
+        squares.forEach((square) => {
+            square.style.backgroundColor = "black";
+            square.textContent = "";
+        });
 
-function checkWin() {
-    const revealedSquares = document.querySelectorAll('.square:not([style*="none"])');
-    if (revealedSquares.length === 6) {
-        balanceDisplay.textContent = 'You Win! Robux: ' + balance;
-        isGameOver = true;
-    }
-}
+        balance = 0;
+        balanceDisplay.textContent = balance;
+    });
+});
