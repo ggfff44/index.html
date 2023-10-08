@@ -66,3 +66,11 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+const squares = document.querySelectorAll('.square');
+const balanceDisplay = document.getElementById('balance');
+const restartButton = document.getElementById('restart');
+let balance = 0;
+
+// Add your game logic here
+
