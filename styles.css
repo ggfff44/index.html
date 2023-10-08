@@ -35,36 +35,9 @@ body {
 
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(4, 100px); /* Adjust this line to change the board size */
     grid-gap: 10px;
     background-color: black;
     padding: 10px;
     border-radius: 10px;
-}
-
-.square {
-    width: 100px;
-    height: 100px;
-    background-color: black;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: grey;
-    border-radius: 5px;
-}
-
-#restart {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#restart:hover {
-    background-color: #2980b9;
 }
