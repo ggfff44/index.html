@@ -1,86 +1,64 @@
-// JavaScript code for the Robux Game
+const squares = document.querySelectorAll('.square');
+const scoreDisplay = document.getElementById('score');
+const restartButton = document.getElementById('restart-button');
 
-let robuxCount = 0;
-let cards = [];
-let flippedCards = [];
-let canFlip = true;
+let robux = 0;
+let selectedSquares = [];
+let isGameOver = false;
 
-function createCard(imgSrc) {
-  const card = document.createElement("div");
-  card.classList.add("card");
+// Shuffle the squares
+function shuffle() {
+    squares.forEach(square => {
+        const randomPosition = Math.floor(Math.random() * 9);
+        square.style.order = randomPosition;
+    });
+}
 
-  const img = document.createElement("img");
-  img.src = imgSrc;
-  card.appendChild(img);
+// Add click event to each square
+squares.forEach(square => {
+    square.addEventListener('click', () => {
+        if (isGameOver || square === selectedSquares[0]) return;
+        square.classList.add('selected');
+        selectedSquares.push(square);
+        if (selectedSquares.length === 2) {
+            const [firstSquare, secondSquare] = selectedSquares;
+            const value1 = firstSquare.getAttribute('data-value');
+            const value2 = secondSquare.getAttribute('data-value');
+            if (value1 === value2) {
+                robux += 100;
+                scoreDisplay.textContent = `Robux: ${robux}`;
+                selectedSquares = [];
+            } else {
+                setTimeout(() => {
+                    firstSquare.classList.remove('selected');
+                    secondSquare.classList.remove('selected');
+                    selectedSquares = [];
+                }, 1000);
+            }
+            checkWin();
+        }
+    });
+});
 
-  card.addEventListener("click", () => {
-    if (canFlip && !flippedCards.includes(card) && flippedCards.length < 2) {
-      flipCard(card);
-      flippedCards.push(card);
-
-      if (flippedCards.length === 2) {
-        canFlip = false;
-        setTimeout(checkMatch, 1000);
-      }
+// Check if the game is won
+function checkWin() {
+    if (document.querySelectorAll('.selected').length === 9) {
+        isGameOver = true;
+        scoreDisplay.textContent = 'You Win!';
     }
-  });
-
-  return card;
 }
 
-function flipCard(card) {
-  const img = card.querySelector("img");
-  img.style.display = "block";
-}
+// Restart the game
+restartButton.addEventListener('click', () => {
+    robux = 0;
+    scoreDisplay.textContent = `Robux: ${robux}`;
+    isGameOver = false;
+    selectedSquares = [];
+    squares.forEach(square => {
+        square.classList.remove('selected');
+    });
+    shuffle();
+});
 
-function checkMatch() {
-  const [card1, card2] = flippedCards;
-  const img1 = card1.querySelector("img").src;
-  const img2 = card2.querySelector("img").src;
-
-  if (img1 === img2) {
-    robuxCount += 100;
-    document.getElementById("robux-count").textContent = `Robux: ${robuxCount}`;
-    flippedCards = [];
-    canFlip = true;
-  } else {
-    setTimeout(() => {
-      flipCard(card1);
-      flipCard(card2);
-      flippedCards = [];
-      canFlip = true;
-    }, 500);
-  }
-}
-
-function startGame() {
-  const gameContainer = document.getElementById("game-container");
-  gameContainer.innerHTML = "";
-
-  const cardImages = [
-    "robuxcoin.webp",
-    "bomb-emoji.png",
-    "robuxcoin.webp",
-    "bomb-emoji.png",
-    "robuxcoin.webp",
-    "bomb-emoji.png",
-  ];
-
-  shuffleArray(cardImages);
-
-  for (const imgSrc of cardImages) {
-    const card = createCard(imgSrc);
-    gameContainer.appendChild(card);
-  }
-
-  document.querySelector(".cover").style.display = "none";
-}
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-document.querySelector(".cover").addEventListener("click", startGame);
+// Initialize the game
+shuffle();
