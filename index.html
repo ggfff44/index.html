@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robux Game</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Robux Game</title>
 </head>
 <body>
-    <div class="container">
-        <div id="game-board" class="game-board">
-            <!-- Cards will be dynamically added here -->
-        </div>
-        <div class="info">
-            <h1>Robux Game</h1>
-            <p id="robux-count">0 Robux</p>
-            <button id="cash-out">Cash Out</button>
-        </div>
-    </div>
-    <script src="script.js"></script>
+  <div class="cover" onclick="startGame()">Click to Start</div>
+  <div class="game-container" id="game-container"></div>
+  <div class="robux-count" id="robux-count">Robux: 0</div>
+
+  <script src="script.js"></script>
 </body>
 </html>
