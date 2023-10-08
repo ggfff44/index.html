@@ -9,8 +9,8 @@ let secondCard = null;
 let lockBoard = false;
 
 const robuxImages = [
-    "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png", // Bomb image
-    "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp" // Robux image
+    "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp", // Robux image
+    "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png" // Bomb image
 ];
 
 const cards = [];
@@ -65,7 +65,12 @@ function disableCards() {
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
 
-    robuxCount += 100;
+    if (firstCard.querySelector("img").src === robuxImages[0]) {
+        robuxCount += 100;
+    } else {
+        robuxCount -= 80;
+    }
+    
     robuxCountDisplay.textContent = `${robuxCount} Robux`;
 
     cardsFlipped += 2;
@@ -85,7 +90,7 @@ function unflipCards() {
         firstCard.classList.remove("flipped");
         secondCard.classList.remove("flipped");
 
-        robuxCount -= 50;
+        robuxCount -= 80;
         robuxCountDisplay.textContent = `${robuxCount} Robux`;
 
         resetBoard();
