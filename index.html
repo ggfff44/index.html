@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Robux Memory Game</title>
+    <title>Robux Game</title>
 </head>
 <body>
-    <div id="game-board"></div>
-    <button id="restart-button">Restart</button>
-    <p id="balance">Balance: 0 Robux</p>
+    <div class="container">
+        <div class="balance-container">
+            <h1>Balance: <span id="balance">0</span> &#128176;</h1>
+        </div>
+        <button id="restart-button">Restart</button>
+        <div class="board">
+            <!-- Squares will be generated using JavaScript -->
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
