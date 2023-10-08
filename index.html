@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mine Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+    <h1>Mine Game</h1>
+    <p>Robux Balance: <span id="robux-balance">100</span></p>
+    <button id="withdraw-button" disabled>Withdraw</button>
     <div id="game-container">
-        <div id="score-container">
-            <span id="robux-balance">Robux: 100</span>
-            <button id="withdraw-button" onclick="withdrawRobux()">Withdraw</button>
-        </div>
-        <div id="board"></div>
+        <!-- The game grid will be generated here -->
     </div>
-    <script src="script.js"></script>
+    <button id="restart-button" style="display: none;">Restart</button>
+    <script src="game.js"></script>
 </body>
 </html>
