@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Game</title>
+    <title>Mine Game with Robux</title>
     <style>
         .game-container {
             display: grid;
@@ -26,17 +26,37 @@
         .treasure {
             background-color: gold;
         }
+        .robux-balance {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+        }
+        .withdraw-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Mine Game</h1>
-    <p>Find 3 treasures without hitting a bomb to win!</p>
+    <h1>Mine Game with Robux</h1>
+    <p>Find 3 treasures without hitting a bomb to win Robux!</p>
+    <div class="robux-balance" id="robux-balance">Robux: 100</div>
+    <div class="withdraw-button" id="withdraw-button" onclick="withdrawRobux()">Withdraw</div>
     <div class="game-container" id="game-container"></div>
 
     <script>
         const gameContainer = document.getElementById('game-container');
+        const robuxBalanceElement = document.getElementById('robux-balance');
+        const withdrawButton = document.getElementById('withdraw-button');
         let treasuresFound = 0;
         let bombsHit = 0;
+        let robuxBalance = 100; // Initial Robux balance
+        let gameCost = 10; // Cost per game
 
         function createBox() {
             const box = document.createElement('div');
@@ -47,20 +67,20 @@
                 if (box.classList.contains('clicked')) return;
 
                 // Randomly decide if it's a bomb or treasure
-                const isBomb = Math.random() < 0.2; // 20% chance of being a bomb
+                const isBomb = Math.random() < 0.4; // 40% chance of being a bomb
                 if (isBomb) {
                     box.classList.add('bomb', 'clicked');
                     bombsHit++;
 
-                    if (bombsHit === 3) {
-                        endGame(false); // Player hit 3 bombs, game over
+                    if (bombsHit === 5) {
+                        endGame(false); // Player hit 5 bombs, game over
                     }
                 } else {
                     box.classList.add('treasure', 'clicked');
                     treasuresFound++;
 
                     if (treasuresFound === 3) {
-                        endGame(true); // Player found 3 treasures, game won
+                        winRobux();
                     }
                 }
             });
@@ -68,7 +88,7 @@
             return box;
         }
 
-        // Create game board
+        // Create game board with more bombs
         for (let i = 0; i < 25; i++) {
             const box = createBox();
             gameContainer.appendChild(box);
@@ -76,10 +96,30 @@
 
         // Function to end the game
         function endGame(isWinner) {
-            const message = isWinner ? "Congratulations! You won!" : "Game over. You hit too many bombs.";
+            const message = isWinner ? "Congratulations! You won Robux!" : "Game over. You hit too many bombs.";
             alert(message);
             // Disable further clicks on the game board
             gameContainer.removeEventListener('click', handleClick);
+        }
+
+        // Function to win Robux
+        function winRobux() {
+            robuxBalance += 300;
+            robuxBalanceElement.innerText = `Robux: ${robuxBalance}`;
+            withdrawButton.style.display = robuxBalance >= 10000 ? 'block' : 'none';
+            endGame(true);
+        }
+
+        // Function to withdraw Robux
+        function withdrawRobux() {
+            if (robuxBalance >= 10000) {
+                robuxBalance -= 10000;
+                robuxBalanceElement.innerText = `Robux: ${robuxBalance}`;
+                withdrawButton.style.display = 'none';
+                alert("Congratulations! You've withdrawn 10,000 Robux!");
+            } else {
+                alert("You must have at least 10,000 Robux to withdraw.");
+            }
         }
     </script>
 </body>
