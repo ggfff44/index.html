@@ -1,11 +1,9 @@
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
     background-image: url('https://i.pinimg.com/originals/66/14/b5/6614b5564b7874dcfb2bed2a321821c1.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 }
 
 .container {
@@ -16,44 +14,37 @@ body {
     height: 100vh;
 }
 
-.balance {
+.balance-container {
     font-size: 24px;
     margin-bottom: 20px;
-    color: white;
 }
 
 .board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-gap: 10px;
-    background-color: black;
-    padding: 10px;
-    border-radius: 10px;
 }
 
 .square {
     width: 100px;
     height: 100px;
     background-color: black;
-    cursor: pointer;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    color: grey;
-    border-radius: 5px;
+    cursor: pointer;
 }
 
-#restart {
-    margin-top: 20px;
+#restart-button {
     padding: 10px 20px;
     background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
-#restart:hover {
+#restart-button:hover {
     background-color: #2980b9;
 }
