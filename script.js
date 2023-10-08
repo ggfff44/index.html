@@ -8,10 +8,8 @@ let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
 
-const robuxImages = [
-    "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp", // Robux image
-    "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png" // Bomb image
-];
+const robuxImage = "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp"; // Robux image
+const bombImage = "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png"; // Bomb image
 
 const cards = [];
 
@@ -21,7 +19,7 @@ function createBoard() {
         const card = document.createElement("div");
         card.classList.add("card");
         const img = document.createElement("img");
-        img.src = robuxImages[i % 2];
+        img.src = bombImage; // Initially, all cards have the bomb image
         card.appendChild(img);
         card.addEventListener("click", flipCard);
         cards.push(card);
@@ -57,21 +55,19 @@ function flipCard() {
 function checkForMatch() {
     const isMatch = firstCard.querySelector("img").src === secondCard.querySelector("img").src;
 
-    isMatch ? disableCards() : unflipCards();
+    if (isMatch) {
+        robuxCount += 100;
+        robuxCountDisplay.textContent = `${robuxCount} Robux`;
+        disableCards();
+    } else {
+        unflipCards();
+    }
 }
 
 // Disable cards if they match
 function disableCards() {
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
-
-    if (firstCard.querySelector("img").src === robuxImages[0]) {
-        robuxCount += 100;
-    } else {
-        robuxCount -= 80;
-    }
-    
-    robuxCountDisplay.textContent = `${robuxCount} Robux`;
 
     cardsFlipped += 2;
     if (cardsFlipped === totalCards * 2) {
@@ -89,10 +85,7 @@ function unflipCards() {
     setTimeout(() => {
         firstCard.classList.remove("flipped");
         secondCard.classList.remove("flipped");
-
-        robuxCount -= 80;
-        robuxCountDisplay.textContent = `${robuxCount} Robux`;
-
+        
         resetBoard();
     }, 1000);
 }
