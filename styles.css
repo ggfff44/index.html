@@ -40,6 +40,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     margin-top: 20px; /* Add some top margin to separate the logo and board */
+    max-width: 350px; /* Set a max width for the board */
 }
 
 .square {
