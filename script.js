@@ -1,77 +1,64 @@
-const robuxBalanceElement = document.getElementById('robux-balance');
-const gameContainer = document.getElementById('game-container');
-const withdrawButton = document.getElementById('withdraw-button');
-const restartButton = document.getElementById('restart-button');
+const gameBoard = document.getElementById('gameBoard');
+const robuxBalance = document.getElementById('robux');
+const withdrawButton = document.getElementById('withdraw');
 
-let robuxBalance = 100;
-let gameOver = false;
+const boardSize = 5;
+const numBombs = Math.floor((boardSize * boardSize) * 0.5);
+const robuxPerGame = 10;
+const robuxPerWin = 300;
 
-function updateRobuxBalance(amount) {
-    robuxBalance += amount;
-    robuxBalanceElement.textContent = robuxBalance;
-}
+let robux = 100;
 
-function createGameGrid() {
-    for (let i = 0; i < 25; i++) {
+const generateGameBoard = () => {
+    for (let i = 0; i < boardSize * boardSize; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
-        square.addEventListener('click', () => handleSquareClick(square));
-        gameContainer.appendChild(square);
+        gameBoard.appendChild(square);
+
+        square.addEventListener('click', () => {
+            if (square.classList.contains('flag') || square.classList.contains('bomb')) {
+                return;
+            }
+
+            if (Math.random() < 0.5) {
+                square.classList.add('flag');
+                robux += robuxPerWin;
+            } else {
+                square.classList.add('bomb');
+                robux = 0;
+                alert('You touched a bomb! Game over.');
+                resetGame();
+            }
+
+            updateRobux();
+        });
     }
-}
+};
 
-function handleSquareClick(square) {
-    if (gameOver) return;
-
-    const random = Math.random();
-    if (random < 0.5) {
-        square.classList.add('mine');
-        square.textContent = '';
-        gameOver = true;
-        square.removeEventListener('click', () => handleSquareClick(square));
-        restartButton.style.display = 'block';
-        withdrawButton.disabled = true;
-    } else {
-        square.classList.add('robux');
-        square.textContent = '';
-        updateRobuxBalance(10);
-        checkWinCondition();
-    }
-}
-
-function checkWinCondition() {
-    const robuxSquares = document.querySelectorAll('.robux').length;
-    if (robuxSquares >= 13) {
-        alert('Congratulations! You won the game!');
+const updateRobux = () => {
+    robuxBalance.textContent = robux;
+    if (robux >= 10000) {
         withdrawButton.disabled = false;
+    } else {
+        withdrawButton.disabled = true;
     }
-}
+};
 
-function restartGame() {
-    const squares = document.querySelectorAll('.square');
-    squares.forEach((square) => {
-        square.classList.remove('mine', 'robux');
-        square.textContent = '';
-        square.addEventListener('click', () => handleSquareClick(square));
-    });
-    gameOver = false;
-    restartButton.style.display = 'none';
-    withdrawButton.disabled = false;
-}
-
-createGameGrid();
+const resetGame = () => {
+    gameBoard.innerHTML = '';
+    generateGameBoard();
+    updateRobux();
+};
 
 withdrawButton.addEventListener('click', () => {
-    if (robuxBalance >= 10000) {
-        alert('Withdraw successful!');
-        robuxBalance -= 10000;
-        robuxBalanceElement.textContent = robuxBalance;
-        withdrawButton.disabled = true;
+    if (robux >= 10000) {
+        robux -= 10000;
+        alert('Withdraw successful! You now have 0 robux.');
+        updateRobux();
     } else {
         alert('You need at least 10,000 robux to withdraw.');
     }
 });
 
-restartButton.addEventListener('click', () => {
-    restartGame();
-});
+generateGameBoard();
+updateRobux();
