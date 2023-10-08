@@ -1,53 +1,50 @@
 body {
-    background-color: #f0f0f0; /* Grey background */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
+    background-image: url('https://img.freepik.com/premium-vector/embossed-geometric-square-black-background_51543-525.jpg');
+    background-size: cover;
+    font-family: Arial, sans-serif;
 }
 
-.game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+.container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1 {
+    color: white;
 }
 
 .balance {
+    color: white;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin: 10px 0;
+}
+
+.restart-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    max-width: 360px;
+    margin: 0 auto;
 }
 
+/* Modify the square style to hide their content */
 .square {
     width: 100px;
     height: 100px;
-    background: url('https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp');
-    background-size: cover;
+    background-color: black; /* Set the background color to black to hide content */
     cursor: pointer;
-}
-
-.restart-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-weight: bold;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.restart-button:hover {
-    background-color: #0056b3;
 }
