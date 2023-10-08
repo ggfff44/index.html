@@ -8,6 +8,7 @@
         /* Add your CSS styles here */
         body {
             background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
 
         h1 {
@@ -46,7 +47,6 @@
             background-size: 100%;
             background-repeat: no-repeat;
             background-position: center;
-            visibility: hidden; /* Initially hidden */
         }
 
         .balance {
@@ -116,6 +116,7 @@
             if (!isWinner) {
                 balance -= 50;
                 robuxBalance.textContent = balance;
+                setTimeout(resetBoard, 1000); // Delay before resetting the board
             }
         }
 
