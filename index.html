@@ -3,20 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Robux Mine Game</title>
+    <style>
+        /* Add your CSS styles here */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 10px;
+            margin: 20px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .robux-cell {
+            background-image: url('https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/6/1/3/613cdec632cfc96444464f55c4f4b3a64617d0fd.png');
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .bomb-cell {
+            background-image: url('https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png');
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .balance {
+            text-align: right;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container">
-        <div class="robux-balance">
-            <img src="https://www.alucare.fr/wp-content/uploads/2023/09/LOGO-ROBUX-.jpg" alt="Robux Logo">
-            <span id="robux">100</span>
-            <button id="withdraw" onclick="withdrawRobux()">Withdraw</button>
-        </div>
-        <div class="game-board" id="gameBoard">
-            <!-- The game board will be generated here -->
-        </div>
+    <h1>Robux Mine Game</h1>
+    <div class="balance">
+        <p>Balance: <span id="robux-balance">100</span> Robux</p>
+        <button id="withdraw-button" onclick="withdrawRobux()">Withdraw</button>
     </div>
-    <script src="script.js"></script>
+    <div class="board" id="board"></div>
+
+    <script>
+        const board = document.getElementById("board");
+        const robuxBalance = document.getElementById("robux-balance");
+        const withdrawButton = document.getElementById("withdraw-button");
+        
+        let balance = 100;
+        
+        function createBoard() {
+            board.innerHTML = "";
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.addEventListener("click", onCellClick);
+                board.appendChild(cell);
+            }
+            placeBombs();
+        }
+        
+        function placeBombs() {
+            const cells = board.getElementsByClassName("cell");
+            const bombCount = Math.floor(cells.length * 0.5); // 50% of cells are bombs
+            const bombIndices = [];
+            while (bombIndices.length < bombCount) {
+                const randomIndex = Math.floor(Math.random() * cells.length);
+                if (!bombIndices.includes(randomIndex)) {
+                    bombIndices.push(randomIndex);
+                    cells[randomIndex].classList.add("bomb-cell");
+                }
+            }
+        }
+        
+        function onCellClick(event) {
+            const cell = event.target;
+            if (cell.classList.contains("bomb-cell")) {
+                gameOver();
+            } else if (!cell.classList.contains("robux-cell")) {
+                cell.classList.add("robux-cell");
+                balance += 300;
+                robuxBalance.textContent = balance;
+                checkWin();
+            }
+        }
+        
+        function gameOver() {
+            alert("Game Over! You touched a bomb. Your balance is reset.");
+            balance = 100;
+            robuxBalance.textContent = balance;
+            createBoard();
+        }
+        
+        function checkWin() {
+            const robuxCells = board.getElementsByClassName("robux-cell");
+            if (robuxCells.length === 3) {
+                alert("Congratulations! You won 300 Robux.");
+                balance += 300;
+                robuxBalance.textContent = balance;
+                createBoard();
+            }
+        }
+        
+        function withdrawRobux() {
+            if (balance >= 10000) {
+                alert(`Withdraw successful! You withdrew ${balance} Robux.`);
+                balance = 0;
+                robuxBalance.textContent = balance;
+            } else {
+                alert("You need at least 10,000 Robux to withdraw.");
+            }
+        }
+        
+        createBoard();
+    </script>
 </body>
 </html>
