@@ -54,18 +54,26 @@ body {
     font-size: 24px;
     color: grey;
     border-radius: 5px;
+    position: relative; /* Added position relative */
 }
 
-#restart {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.square .cover {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#restart:hover {
-    background-color: #2980b9;
+/* Add classes for good and bomb squares */
+.square.good {
+    background-color: green;
+}
+
+.square.bomb {
+    background-color: red;
 }
