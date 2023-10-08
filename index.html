@@ -13,7 +13,6 @@
         .box {
             width: 100px;
             height: 100px;
-            background-color: lightgray;
             text-align: center;
             line-height: 100px;
             font-size: 24px;
@@ -24,7 +23,12 @@
             color: white;
         }
         .treasure {
-            background-color: gold;
+            background-color: yellow;
+            color: black;
+        }
+        .robux {
+            background-color: gray;
+            color: white;
         }
         .robux-balance {
             position: absolute;
@@ -44,7 +48,7 @@
 </head>
 <body>
     <h1>Mine Game with Robux</h1>
-    <p>Find 3 treasures without hitting a bomb to win Robux!</p>
+    <p>Find 3 treasures (💰) without hitting a bomb (💣) to win Robux!</p>
     <div class="robux-balance" id="robux-balance">Robux: 100</div>
     <div class="withdraw-button" id="withdraw-button" onclick="withdrawRobux()">Withdraw</div>
     <div class="game-container" id="game-container"></div>
