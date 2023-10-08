@@ -34,15 +34,15 @@ for (let i = 0; i < 9; i++) {
         const isBomb = square.dataset.isBomb === 'true';
 
         // Reveal square content
-        square.style.backgroundImage = `url(${isBomb ? 'https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png' : 'https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp'})`;
+        square.style.backgroundImage = `url(${isBomb ? 'https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Robux_2019_Logo_Black.svg/450px-Robux_2019_Logo_Black.svg.png'})`;
         square.style.pointerEvents = 'none'; // Disable clicking on matched square
 
         if (!isBomb) {
-            balance += 30; // +30 robux for a right guess
+            balance += 100; // +100 robux for a right guess
             balanceDisplay.textContent = `Robux: ${balance}`;
         } else {
             isGameOver = true;
-            balanceDisplay.textContent = 'Game Over';
+            balanceDisplay.textContent = 'Game Over. Click Restart to play again.';
         }
         checkWin();
     });
