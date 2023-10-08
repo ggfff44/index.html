@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             square.textContent = "💰";
             square.style.backgroundColor = "#FFD700";
-            balance += 30;
+            balance += 100;
             balanceDisplay.textContent = balance;
         }
     }
