@@ -1,60 +1,72 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
 }
 
-h1 {
-    color: #333;
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
 }
 
-#robux-balance {
-    font-weight: bold;
+.robux-balance {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+img {
+    width: 30px;
+    height: 30px;
+}
+
+#robux {
     font-size: 20px;
+    font-weight: bold;
 }
 
-#withdraw-button, #restart-button {
+#withdraw {
     background-color: #4CAF50;
     color: white;
     border: none;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
-#game-container {
+.game-board {
     display: grid;
-    grid-template-columns: repeat(5, 100px);
-    grid-template-rows: repeat(5, 100px);
-    grid-gap: 10px;
-    margin: 20px auto;
+    grid-template-columns: repeat(5, 50px);
+    grid-gap: 5px;
+    background-color: black;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .square {
-    width: 100px;
-    height: 100px;
-    background-color: #000;
+    width: 50px;
+    height: 50px;
+    background-color: grey;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     font-size: 24px;
     cursor: pointer;
-    color: #fff;
-    font-weight: bold;
+    user-select: none;
+    border: 1px solid white;
 }
 
-.mine {
+.bomb {
     background-image: url('https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-color: red;
 }
 
-.robux {
-    background-image: url('https://www.alucare.fr/wp-content/uploads/2023/09/LOGO-ROBUX-.jpg');
+.flag {
+    background-image: url('https://media.karousell.com/media/photos/products/2023/7/12/roblox__robux_with_account_1689162450_dfbb9710_progressive');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-color: yellow;
 }
