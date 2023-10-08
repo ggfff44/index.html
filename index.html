@@ -59,31 +59,45 @@
             background-image: radial-gradient(circle, #888 10%, transparent 12%);
             background-size: 30px 30px;
         }
+
+        /* Add grey background to the site */
+        .site {
+            background-color: #ddd;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Robux Mine Game</h1>
-    <div class="balance">
-        <p>Balance: <span id="robux-balance">0</span> Robux</p>
-        <button onclick="cashOut()">Cash Out</button>
+    <div class="site">
+        <h1>Robux Mine Game</h1>
+        <div class="balance">
+            <p>Balance: <span id="robux-balance">0</span> Robux</p>
+            <button onclick="cashOut()">Cash Out</button>
+        </div>
+        <div class="board" id="board"></div>
+        <button onclick="resetGame()">Retry</button>
     </div>
-    <div class="board" id="board"></div>
     <script>
         const board = document.getElementById("board");
         const robuxBalance = document.getElementById("robux-balance");
         const cashOutButton = document.querySelector("button");
+        const retryButton = document.querySelector("button:last-child");
 
         let balance = 0;
         let isGameActive = true;
 
         // Create the game board
-        for (let i = 0; i < 25; i++) {
-            const cell = document.createElement("div");
-            cell.classList.add("cell");
-            cell.dataset.index = i;
-            cell.addEventListener("click", () => clickCell(i));
-            board.appendChild(cell);
+        function createBoard() {
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.dataset.index = i;
+                cell.addEventListener("click", () => clickCell(i));
+                board.appendChild(cell);
+            }
         }
+
+        createBoard();
 
         // Function to handle cell click
         function clickCell(index) {
@@ -116,8 +130,28 @@
             if (!isWinner) {
                 balance -= 50;
                 robuxBalance.textContent = balance;
+                retryButton.style.display = "block";
                 setTimeout(resetBoard, 1000); // Delay before resetting the board
             }
+        }
+
+        // Function to reset the board
+        function resetBoard() {
+            const cells = document.querySelectorAll(".cell");
+            cells.forEach((cell) => {
+                cell.classList.remove("robux-cell", "bomb-cell");
+                cell.addEventListener("click", () => clickCell(cell.dataset.index));
+            });
+            retryButton.style.display = "none";
+            isGameActive = true;
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            balance = 0;
+            robuxBalance.textContent = balance;
+            cashOutButton.style.display = "none";
+            resetBoard();
         }
 
         // Function to cash out
@@ -132,15 +166,6 @@
             } else {
                 alert("You need at least 25,000 Robux to cash out.");
             }
-        }
-
-        // Function to reset the board
-        function resetBoard() {
-            const cells = document.querySelectorAll(".cell");
-            cells.forEach((cell) => {
-                cell.classList.remove("robux-cell", "bomb-cell");
-                cell.addEventListener("click", () => clickCell(cell.dataset.index));
-            });
         }
     </script>
 </body>
