@@ -1,41 +1,113 @@
-// JavaScript code for the game logic goes here
+const robuxCountDisplay = document.getElementById("robux-count");
+const cashOutButton = document.getElementById("cash-out");
+const gameBoard = document.getElementById("game-board");
+const totalCards = 8; // Change the number of cards as needed
+let robuxCount = 0;
+let cardsFlipped = 0;
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
 
-// Function to create a random game board
-function createGameBoard(rows, columns) {
-    const gameBoard = document.getElementById('game-board');
+const robuxImages = [
+    "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png", // Bomb image
+    "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp" // Robux image
+];
 
-    for (let i = 0; i < rows * columns; i++) {
-        const card = document.createElement('div');
-        card.classList.add('card');
-        card.dataset.type = 'robux'; // Initially, all cards are Robux
+const cards = [];
 
-        // Add a click event listener to reveal the card
-        card.addEventListener('click', () => {
-            revealCard(card);
-        });
+// Create the game board
+function createBoard() {
+    for (let i = 0; i < totalCards * 2; i++) {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        const img = document.createElement("img");
+        img.src = robuxImages[i % 2];
+        card.appendChild(img);
+        card.addEventListener("click", flipCard);
+        cards.push(card);
+    }
+    shuffleCards();
+    cards.forEach((card) => gameBoard.appendChild(card));
+}
 
-        gameBoard.appendChild(card);
+// Shuffle the cards using the Fisher-Yates algorithm
+function shuffleCards() {
+    for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cards[i], cards[j]] = [cards[j], cards[i]];
     }
 }
 
-// Function to reveal a card
-function revealCard(card) {
-    const cardType = card.dataset.type;
+// Handle card flipping
+function flipCard() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+    this.classList.add("flipped");
 
-    // Simulate winning/losing logic here
-    if (cardType === 'robux') {
-        card.style.backgroundColor = '#ffffff'; // Change the card to white
-        card.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Robux_2019_Logo_Black.svg/450px-Robux_2019_Logo_Black.svg.png" alt="Robux Logo">';
+    if (!firstCard) {
+        firstCard = this;
+        return;
+    }
+
+    secondCard = this;
+    checkForMatch();
+}
+
+// Check if the flipped cards are a match
+function checkForMatch() {
+    const isMatch = firstCard.querySelector("img").src === secondCard.querySelector("img").src;
+
+    isMatch ? disableCards() : unflipCards();
+}
+
+// Disable cards if they match
+function disableCards() {
+    firstCard.removeEventListener("click", flipCard);
+    secondCard.removeEventListener("click", flipCard);
+
+    robuxCount += 100;
+    robuxCountDisplay.textContent = `${robuxCount} Robux`;
+
+    cardsFlipped += 2;
+    if (cardsFlipped === totalCards * 2) {
+        robuxCountDisplay.textContent = "Congratulations! You've won!";
+        cashOutButton.style.display = "none";
+    }
+
+    resetBoard();
+}
+
+// Unflip cards if they don't match
+function unflipCards() {
+    lockBoard = true;
+
+    setTimeout(() => {
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
+
+        robuxCount -= 50;
+        robuxCountDisplay.textContent = `${robuxCount} Robux`;
+
+        resetBoard();
+    }, 1000);
+}
+
+// Reset the board
+function resetBoard() {
+    [firstCard, secondCard] = [null, null];
+    lockBoard = false;
+}
+
+// Cash out function
+cashOutButton.addEventListener("click", () => {
+    if (robuxCount >= 3000) {
+        robuxCount -= 3000;
+        robuxCountDisplay.textContent = `${robuxCount} Robux`;
+        alert("Congratulations! You've cashed out 3000 Robux!");
     } else {
-        card.style.backgroundColor = '#ff0000'; // Change the card to red for bombs
-        card.innerHTML = 'Boom!';
+        alert("Sorry, you need at least 3000 Robux to cash out.");
     }
+});
 
-    // Disable further clicks on the card
-    card.removeEventListener('click', revealCard);
-}
-
-// Initialize the game board
-createGameBoard(5, 5); // You can adjust the rows and columns
-
-// Add your game logic, such as updating the Robux count, here
+// Initialize the game
+createBoard();
