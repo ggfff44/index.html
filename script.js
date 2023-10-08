@@ -1,68 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Gambling Game</title>
-    <style>
-        /* Add any custom CSS styling here */
-    </style>
-</head>
-<body>
-    <h1>Mine Gambling Game</h1>
-    <p>Click on a position to dig and find treasures, but be careful not to hit a mine!</p>
-    <div id="game-board">
-        <!-- The game board will be generated here using JavaScript -->
-    </div>
-    <script>
-        const boardSize = 10;
-        const numMines = 3;
-        let board = [];
-        let mines = [];
-        let attempts = 0;
+const robuxBalanceElement = document.getElementById('robux-balance');
+const gameContainer = document.getElementById('game-container');
+const withdrawButton = document.getElementById('withdraw-button');
 
-        // Function to initialize the game board
-        function initializeBoard() {
-            for (let i = 0; i < boardSize; i++) {
-                board.push(" ");
-            }
-            mines = Array.from({ length: numMines }, () => Math.floor(Math.random() * boardSize));
-        }
+let robuxBalance = 100;
 
-        // Function to handle a player's move
-        function dig(position) {
-            if (mines.includes(position)) {
-                alert("Boom! You hit a mine. Game over!");
-                location.reload(); // Reload the page to start a new game
-            } else {
-                board[position] = "T";
-                attempts++;
-                document.getElementById("game-board").innerHTML = renderBoard();
-                if (attempts === (boardSize - numMines)) {
-                    alert("Congratulations! You've found all the treasures without hitting a mine.");
-                    location.reload(); // Reload the page to start a new game
-                }
-            }
-        }
+function updateRobuxBalance(amount) {
+    robuxBalance += amount;
+    robuxBalanceElement.textContent = robuxBalance;
+}
 
-        // Function to render the game board
-        function renderBoard() {
-            let boardHtml = "<div class='board-row'>";
-            for (let i = 0; i < boardSize; i++) {
-                boardHtml += `<div class='cell' onclick='dig(${i})'>${board[i]}</div>`;
-                if (i % 5 === 4) {
-                    boardHtml += "</div><div class='board-row'>";
-                }
-            }
-            boardHtml += "</div>";
-            return boardHtml;
-        }
+function createGameGrid() {
+    for (let i = 0; i < 25; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.addEventListener('click', () => handleSquareClick(square));
+        gameContainer.appendChild(square);
+    }
+}
 
-        // Initialize the game board when the page loads
-        window.onload = function () {
-            initializeBoard();
-            document.getElementById("game-board").innerHTML = renderBoard();
-        };
-    </script>
-</body>
-</html>
+function handleSquareClick(square) {
+    const random = Math.random();
+    if (random < 0.2) {
+        square.classList.add('mine');
+        updateRobuxBalance(-10);
+    } else {
+        square.classList.add('robux');
+        updateRobuxBalance(30);
+    }
+
+    square.removeEventListener('click', () => handleSquareClick(square));
+    checkWinCondition();
+}
+
+function checkWinCondition() {
+    const robuxSquares = document.querySelectorAll('.robux').length;
+    if (robuxSquares >= 3) {
+        alert('Congratulations! You won the game!');
+        withdrawButton.disabled = false;
+    }
+}
+
+createGameGrid();
+
+withdrawButton.addEventListener('click', () => {
+    if (robuxBalance >= 10000) {
+        alert('Withdraw successful!');
+        robuxBalance -= 10000;
+        robuxBalanceElement.textContent = robuxBalance;
+        withdrawButton.disabled = true;
+    } else {
+        alert('You need at least 10,000 robux to withdraw.');
+    }
+});
