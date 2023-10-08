@@ -3,116 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Robux Memory Game</title>
-    <style>
-        body {
-            background-image: url('https://i.pinimg.com/originals/66/14/b5/6614b5564b7874dcfb2bed2a321821c1.jpg');
-            background-size: cover;
-            font-family: Arial, sans-serif;
-        }
-
-        #game-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px auto;
-            width: 300px;
-        }
-
-        .card {
-            width: 100px;
-            height: 100px;
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body>
-    <h1>Robux Memory Game</h1>
+    <div id="game-board"></div>
     <button id="restart-button">Restart</button>
-    <p>Balance: <span id="balance">0</span> Robux</p>
-    <div id="game-board">
-        <!-- Cards will be generated here using JavaScript -->
-    </div>
-
-    <script>
-        const gameBoard = document.getElementById('game-board');
-        const restartButton = document.getElementById('restart-button');
-        const balanceDisplay = document.getElementById('balance');
-
-        let cards = [];
-        let balance = 0;
-
-        // Function to create a shuffled deck
-        function createDeck() {
-            const deck = [];
-            for (let i = 0; i < 3; i++) {
-                deck.push('robux', 'bomb', 'bomb');
-            }
-            return shuffle(deck);
-        }
-
-        // Function to shuffle an array
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        // Function to handle card click
-        function handleCardClick(index) {
-            const card = cards[index];
-
-            if (card.classList.contains('hidden')) {
-                card.classList.remove('hidden');
-
-                if (card.dataset.value === 'robux') {
-                    balance += 30;
-                } else {
-                    balance -= 80;
-                    restartGame();
-                }
-
-                balanceDisplay.textContent = balance + ' Robux';
-            }
-        }
-
-        // Function to restart the game
-        function restartGame() {
-            cards.forEach((card) => {
-                card.classList.add('hidden');
-            });
-
-            cards = createDeck();
-
-            setTimeout(() => {
-                cards.forEach((card, index) => {
-                    card.classList.add('hidden');
-                    card.dataset.value = cards[index];
-                });
-            }, 2000);
-        }
-
-        // Initialize the game
-        restartGame();
-
-        // Add click event listeners to the cards
-        cards.forEach((card, index) => {
-            card.addEventListener('click', () => handleCardClick(index));
-            gameBoard.appendChild(card);
-        });
-
-        // Add click event listener to the restart button
-        restartButton.addEventListener('click', restartGame);
-    </script>
+    <p id="balance">Balance: 0 Robux</p>
+    <script src="script.js"></script>
 </body>
 </html>
