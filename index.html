@@ -3,66 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine Gambling Game</title>
+    <title>Mine Game</title>
     <style>
-        /* Add any custom CSS styling here */
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            gap: 10px;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            text-align: center;
+            line-height: 100px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .bomb {
+            background-color: red;
+            color: white;
+        }
+        .treasure {
+            background-color: gold;
+        }
     </style>
 </head>
 <body>
-    <h1>Mine Gambling Game</h1>
-    <p>Click on a position to dig and find treasures, but be careful not to hit a mine!</p>
-    <div id="game-board">
-        <!-- The game board will be generated here using JavaScript -->
-    </div>
+    <h1>Mine Game</h1>
+    <p>Find 3 treasures without hitting a bomb to win!</p>
+    <div class="game-container" id="game-container"></div>
+
     <script>
-        const boardSize = 10;
-        const numMines = 3;
-        let board = [];
-        let mines = [];
-        let attempts = 0;
+        const gameContainer = document.getElementById('game-container');
+        let treasuresFound = 0;
+        let bombsHit = 0;
 
-        // Function to initialize the game board
-        function initializeBoard() {
-            for (let i = 0; i < boardSize; i++) {
-                board.push(" ");
-            }
-            mines = Array.from({ length: numMines }, () => Math.floor(Math.random() * boardSize));
-        }
+        function createBox() {
+            const box = document.createElement('div');
+            box.classList.add('box');
 
-        // Function to handle a player's move
-        function dig(position) {
-            if (mines.includes(position)) {
-                alert("Boom! You hit a mine. Game over!");
-                location.reload(); // Reload the page to start a new game
-            } else {
-                board[position] = "T";
-                attempts++;
-                document.getElementById("game-board").innerHTML = renderBoard();
-                if (attempts === (boardSize - numMines)) {
-                    alert("Congratulations! You've found all the treasures without hitting a mine.");
-                    location.reload(); // Reload the page to start a new game
+            // Add click event listener
+            box.addEventListener('click', () => {
+                if (box.classList.contains('clicked')) return;
+
+                // Randomly decide if it's a bomb or treasure
+                const isBomb = Math.random() < 0.2; // 20% chance of being a bomb
+                if (isBomb) {
+                    box.classList.add('bomb', 'clicked');
+                    bombsHit++;
+
+                    if (bombsHit === 3) {
+                        endGame(false); // Player hit 3 bombs, game over
+                    }
+                } else {
+                    box.classList.add('treasure', 'clicked');
+                    treasuresFound++;
+
+                    if (treasuresFound === 3) {
+                        endGame(true); // Player found 3 treasures, game won
+                    }
                 }
-            }
+            });
+
+            return box;
         }
 
-        // Function to render the game board
-        function renderBoard() {
-            let boardHtml = "<div class='board-row'>";
-            for (let i = 0; i < boardSize; i++) {
-                boardHtml += `<div class='cell' onclick='dig(${i})'>${board[i]}</div>`;
-                if (i % 5 === 4) {
-                    boardHtml += "</div><div class='board-row'>";
-                }
-            }
-            boardHtml += "</div>";
-            return boardHtml;
+        // Create game board
+        for (let i = 0; i < 25; i++) {
+            const box = createBox();
+            gameContainer.appendChild(box);
         }
 
-        // Initialize the game board when the page loads
-        window.onload = function () {
-            initializeBoard();
-            document.getElementById("game-board").innerHTML = renderBoard();
-        };
+        // Function to end the game
+        function endGame(isWinner) {
+            const message = isWinner ? "Congratulations! You won!" : "Game over. You hit too many bombs.";
+            alert(message);
+            // Disable further clicks on the game board
+            gameContainer.removeEventListener('click', handleClick);
+        }
     </script>
 </body>
 </html>
