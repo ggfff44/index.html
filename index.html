@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mine Game</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Mine Game</h1>
-    <p>Robux Balance: <span id="robux-balance">100</span></p>
-    <button id="withdraw-button" disabled>Withdraw</button>
-    <div id="game-container">
-        <!-- The game grid will be generated here -->
+    <div class="game-container">
+        <div class="robux-balance">
+            <img src="https://www.alucare.fr/wp-content/uploads/2023/09/LOGO-ROBUX-.jpg" alt="Robux Logo">
+            <span id="robux">100</span>
+            <button id="withdraw" onclick="withdrawRobux()">Withdraw</button>
+        </div>
+        <div class="game-board" id="gameBoard">
+            <!-- The game board will be generated here -->
+        </div>
     </div>
-    <button id="restart-button" style="display: none;">Restart</button>
-    <script src="game.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
