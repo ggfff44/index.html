@@ -1,15 +1,12 @@
-const board = document.querySelector('.board');
+const squares = document.querySelectorAll('.square');
 const balanceDisplay = document.getElementById('balance');
 const restartButton = document.getElementById('restart-button');
 
 let balance = 0;
 
-function createSquare(isBomb) {
-    const square = document.createElement('div');
-    square.className = 'square';
-    square.textContent = isBomb ? '💣' : '💰';
+squares.forEach((square) => {
     square.addEventListener('click', () => {
-        if (isBomb) {
+        if (square.getAttribute('data-is-bomb') === 'true') {
             alert('Game Over! You hit a bomb. Your balance will be reset.');
             balance = 0;
             balanceDisplay.textContent = balance;
@@ -18,24 +15,34 @@ function createSquare(isBomb) {
             balance += 30;
             balanceDisplay.textContent = balance;
             square.style.backgroundColor = 'transparent';
-            square.style.cursor = 'default';
-            square.removeEventListener('click', () => { });
+            square.textContent = '\u{1F4B0}'; // Money bag emoji
+            square.removeEventListener('click', () => {});
         }
     });
-    return square;
-}
-
-function restartGame() {
-    board.innerHTML = '';
-    for (let i = 0; i < 9; i++) {
-        const isBomb = Math.random() < 0.33; // Approximately 33% of squares will be bombs
-        const square = createSquare(isBomb);
-        board.appendChild(square);
-    }
-}
+});
 
 restartButton.addEventListener('click', () => {
     restartGame();
 });
 
-restartGame();
+function restartGame() {
+    squares.forEach((square) => {
+        square.style.backgroundColor = 'black';
+        square.textContent = '';
+        square.setAttribute('data-is-bomb', (Math.random() < 0.3).toString());
+        square.addEventListener('click', () => {
+            if (square.getAttribute('data-is-bomb') === 'true') {
+                alert('Game Over! You hit a bomb. Your balance will be reset.');
+                balance = 0;
+                balanceDisplay.textContent = balance;
+                restartGame();
+            } else {
+                balance += 30;
+                balanceDisplay.textContent = balance;
+                square.style.backgroundColor = 'transparent';
+                square.textContent = '\u{1F4B0}'; // Money bag emoji
+                square.removeEventListener('click', () => {});
+            }
+        });
+    });
+}
