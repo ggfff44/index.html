@@ -1,96 +1,41 @@
-const cards = [
-    { id: 0, imgSrc: 'robux.png', isFlipped: false },
-    { id: 1, imgSrc: 'robux.png', isFlipped: false },
-    { id: 2, imgSrc: 'robux.png', isFlipped: false },
-    { id: 3, imgSrc: 'robux.png', isFlipped: false },
-    { id: 4, imgSrc: 'robux.png', isFlipped: false },
-    { id: 5, imgSrc: 'robux.png', isFlipped: false },
-    { id: 6, imgSrc: 'robux.png', isFlipped: false },
-    { id: 7, imgSrc: 'robux.png', isFlipped: false },
-    { id: 8, imgSrc: 'robux.png', isFlipped: false }
-];
+// JavaScript code for the game logic goes here
 
-let firstCard = null;
-let secondCard = null;
-let matches = 0;
-let attempts = 0;
-let robux = 0;
+// Function to create a random game board
+function createGameBoard(rows, columns) {
+    const gameBoard = document.getElementById('game-board');
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+    for (let i = 0; i < rows * columns; i++) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.type = 'robux'; // Initially, all cards are Robux
+
+        // Add a click event listener to reveal the card
+        card.addEventListener('click', () => {
+            revealCard(card);
+        });
+
+        gameBoard.appendChild(card);
     }
 }
 
-function flipCard(index) {
-    if (cards[index].isFlipped) return;
-    const card = document.querySelector(`.card:nth-child(${index + 1})`);
-    card.innerHTML = `<img src="${cards[index].imgSrc}" alt="Card">`;
-    cards[index].isFlipped = true;
+// Function to reveal a card
+function revealCard(card) {
+    const cardType = card.dataset.type;
 
-    if (firstCard === null) {
-        firstCard = index;
+    // Simulate winning/losing logic here
+    if (cardType === 'robux') {
+        card.style.backgroundColor = '#ffffff'; // Change the card to white
+        card.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Robux_2019_Logo_Black.svg/450px-Robux_2019_Logo_Black.svg.png" alt="Robux Logo">';
     } else {
-        secondCard = index;
-        attempts++;
-        document.getElementById('attempts').textContent = `Attempts: ${attempts}`;
-        setTimeout(checkMatch, 1000);
+        card.style.backgroundColor = '#ff0000'; // Change the card to red for bombs
+        card.innerHTML = 'Boom!';
     }
+
+    // Disable further clicks on the card
+    card.removeEventListener('click', revealCard);
 }
 
-function checkMatch() {
-    if (cards[firstCard].imgSrc === cards[secondCard].imgSrc) {
-        matches++;
-        robux += 100; // Reward 100 robux for a match
-        document.getElementById('robux').textContent = `Robux: ${robux}`;
+// Initialize the game board
+createGameBoard(5, 5); // You can adjust the rows and columns
 
-        if (matches === cards.length / 2) {
-            alert('Congratulations! You won!');
-            resetGame();
-        } else {
-            firstCard = null;
-            secondCard = null;
-        }
-    } else {
-        const card1 = document.querySelector(`.card:nth-child(${firstCard + 1})`);
-        const card2 = document.querySelector(`.card:nth-child(${secondCard + 1})`);
-        card1.innerHTML = '';
-        card2.innerHTML = '';
-        cards[firstCard].isFlipped = false;
-        cards[secondCard].isFlipped = false;
-        firstCard = null;
-        secondCard = null;
-
-        // Penalize 50 robux for a mismatch
-        robux -= 50;
-        document.getElementById('robux').textContent = `Robux: ${robux}`;
-
-        if (robux < 0) {
-            alert('You ran out of Robux! Game over.');
-            resetGame();
-        }
-    }
-}
-
-function resetGame() {
-    matches = 0;
-    attempts = 0;
-    robux = 0;
-    document.getElementById('attempts').textContent = 'Attempts: 0';
-    document.getElementById('robux').textContent = 'Robux: 0';
-
-    cards.forEach(card => {
-        card.isFlipped = false;
-    });
-
-    shuffleArray(cards);
-
-    const cardElements = document.querySelectorAll('.card');
-    cardElements.forEach((card, index) => {
-        card.innerHTML = '';
-        card.style.pointerEvents = 'auto';
-    });
-}
-
-shuffleArray(cards);
+// Add your game logic, such as updating the Robux count, here
