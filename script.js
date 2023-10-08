@@ -1,8 +1,10 @@
 const robuxBalanceElement = document.getElementById('robux-balance');
 const gameContainer = document.getElementById('game-container');
 const withdrawButton = document.getElementById('withdraw-button');
+const restartButton = document.getElementById('restart-button');
 
 let robuxBalance = 100;
+let gameOver = false;
 
 function updateRobuxBalance(amount) {
     robuxBalance += amount;
@@ -19,25 +21,42 @@ function createGameGrid() {
 }
 
 function handleSquareClick(square) {
+    if (gameOver) return;
+
     const random = Math.random();
-    if (random < 0.2) {
+    if (random < 0.5) {
         square.classList.add('mine');
-        updateRobuxBalance(-10);
+        square.textContent = '';
+        gameOver = true;
+        square.removeEventListener('click', () => handleSquareClick(square));
+        restartButton.style.display = 'block';
+        withdrawButton.disabled = true;
     } else {
         square.classList.add('robux');
-        updateRobuxBalance(30);
+        square.textContent = '';
+        updateRobuxBalance(10);
+        checkWinCondition();
     }
-
-    square.removeEventListener('click', () => handleSquareClick(square));
-    checkWinCondition();
 }
 
 function checkWinCondition() {
     const robuxSquares = document.querySelectorAll('.robux').length;
-    if (robuxSquares >= 3) {
+    if (robuxSquares >= 13) {
         alert('Congratulations! You won the game!');
         withdrawButton.disabled = false;
     }
+}
+
+function restartGame() {
+    const squares = document.querySelectorAll('.square');
+    squares.forEach((square) => {
+        square.classList.remove('mine', 'robux');
+        square.textContent = '';
+        square.addEventListener('click', () => handleSquareClick(square));
+    });
+    gameOver = false;
+    restartButton.style.display = 'none';
+    withdrawButton.disabled = false;
 }
 
 createGameGrid();
@@ -51,4 +70,8 @@ withdrawButton.addEventListener('click', () => {
     } else {
         alert('You need at least 10,000 robux to withdraw.');
     }
+});
+
+restartButton.addEventListener('click', () => {
+    restartGame();
 });
