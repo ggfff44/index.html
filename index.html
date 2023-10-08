@@ -22,6 +22,7 @@
             align-items: center;
             font-size: 24px;
             cursor: pointer;
+            position: relative; /* Added to handle bomb icon */
         }
 
         .robux-cell {
@@ -30,12 +31,13 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-        
+
         .bomb-cell {
             background-image: url('https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png');
             background-size: 100%;
             background-repeat: no-repeat;
             background-position: center;
+            visibility: hidden; /* Initially hidden */
         }
 
         .balance {
@@ -56,9 +58,9 @@
         const board = document.getElementById("board");
         const robuxBalance = document.getElementById("robux-balance");
         const withdrawButton = document.getElementById("withdraw-button");
-        
+
         let balance = 100;
-        
+
         function createBoard() {
             board.innerHTML = "";
             for (let i = 0; i < 25; i++) {
@@ -66,10 +68,15 @@
                 cell.classList.add("cell");
                 cell.addEventListener("click", onCellClick);
                 board.appendChild(cell);
+
+                // Add hidden bomb icon to each cell
+                const bombIcon = document.createElement("div");
+                bombIcon.classList.add("bomb-cell");
+                cell.appendChild(bombIcon);
             }
             placeBombs();
         }
-        
+
         function placeBombs() {
             const cells = board.getElementsByClassName("cell");
             const bombCount = Math.floor(cells.length * 0.5); // 50% of cells are bombs
@@ -78,30 +85,33 @@
                 const randomIndex = Math.floor(Math.random() * cells.length);
                 if (!bombIndices.includes(randomIndex)) {
                     bombIndices.push(randomIndex);
-                    cells[randomIndex].classList.add("bomb-cell");
+                    // Show the hidden bomb icon
+                    cells[randomIndex].getElementsByClassName("bomb-cell")[0].style.visibility = "visible";
                 }
             }
         }
-        
+
         function onCellClick(event) {
             const cell = event.target;
-            if (cell.classList.contains("bomb-cell")) {
-                gameOver();
-            } else if (!cell.classList.contains("robux-cell")) {
-                cell.classList.add("robux-cell");
-                balance += 300;
-                robuxBalance.textContent = balance;
-                checkWin();
+            if (!cell.classList.contains("robux-cell")) {
+                if (cell.getElementsByClassName("bomb-cell")[0].style.visibility === "visible") {
+                    gameOver();
+                } else {
+                    cell.classList.add("robux-cell");
+                    balance += 300;
+                    robuxBalance.textContent = balance;
+                    checkWin();
+                }
             }
         }
-        
+
         function gameOver() {
             alert("Game Over! You touched a bomb. Your balance is reset.");
             balance = 100;
             robuxBalance.textContent = balance;
             createBoard();
         }
-        
+
         function checkWin() {
             const robuxCells = board.getElementsByClassName("robux-cell");
             if (robuxCells.length === 3) {
@@ -111,7 +121,7 @@
                 createBoard();
             }
         }
-        
+
         function withdrawRobux() {
             if (balance >= 10000) {
                 alert(`Withdraw successful! You withdrew ${balance} Robux.`);
@@ -121,7 +131,7 @@
                 alert("You need at least 10,000 Robux to withdraw.");
             }
         }
-        
+
         createBoard();
     </script>
 </body>
