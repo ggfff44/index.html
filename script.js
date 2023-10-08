@@ -62,3 +62,22 @@ withdrawButton.addEventListener('click', () => {
 
 generateGameBoard();
 updateRobux();
+
+// Function to end the game
+function endGame(isWinner) {
+    isGameActive = false;
+    if (!isWinner) {
+        setTimeout(() => {
+            const cells = document.querySelectorAll(".cell");
+            cells.forEach((cell) => {
+                if (cell.classList.contains("bomb-cell")) {
+                    cell.classList.remove("flipped");
+                }
+                cell.removeEventListener("click", () => clickCell(cell));
+            });
+            createBoard();
+            isGameActive = true;
+        }, 1000);
+    }
+}
+
