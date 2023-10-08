@@ -14,7 +14,7 @@ squares.forEach((square) => {
             balance += 30;
             balanceDisplay.textContent = balance;
             square.style.backgroundColor = 'transparent';
-            square.textContent = '';
+            square.textContent = '💣'; // Bomb emoji
             square.removeEventListener('click', () => {});
         }
     });
@@ -38,7 +38,7 @@ function restartGame() {
                 balance += 30;
                 balanceDisplay.textContent = balance;
                 square.style.backgroundColor = 'transparent';
-                square.textContent = '';
+                square.textContent = '💣'; // Bomb emoji
                 square.removeEventListener('click', () => {});
             }
         });
