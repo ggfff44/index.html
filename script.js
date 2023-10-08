@@ -1,7 +1,7 @@
 const squares = document.querySelectorAll('.square');
 const balanceDisplay = document.getElementById('balance');
 const restartButton = document.getElementById('restart');
-const logo = document.getElementById('logo');
+const logo = document.querySelector('.brand-logo img');
 let balance = 0;
 
 squares.forEach((square) => {
