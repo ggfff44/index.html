@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robux vs Bomb Game</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <title>Robux Game</title>
 </head>
 <body>
     <div class="container">
-        <h1>Robux vs Bomb Game</h1>
-        <div class="balance" id="balanceDisplay">Robux: 0</div>
-        <button class="restart-button" id="restartButton">Restart</button>
-        <div class="board" id="board"></div>
+        <div class="balance">Balance: <span id="balance">0</span> Robux</div>
+        <div class="board">
+            <div class="square" data-value="robux"></div>
+            <div class="square" data-value="robux"></div>
+            <div class="square" data-value="robux"></div>
+            <div class="square" data-value="bomb"></div>
+            <div class="square" data-value="bomb"></div>
+            <div class="square" data-value="bomb"></div>
+            <div class="square" data-value="empty"></div>
+            <div class="square" data-value="empty"></div>
+            <div class="square" data-value="empty"></div>
+        </div>
+        <button id="restart">Restart</button>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>
