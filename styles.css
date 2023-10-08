@@ -1,64 +1,60 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
+    background-color: #f0f0f0;
 }
 
-#game-container {
-    margin: 20px auto;
-    max-width: 600px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-#score-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+h1 {
+    color: #333;
 }
 
 #robux-balance {
     font-weight: bold;
+    font-size: 20px;
 }
 
-#withdraw-button {
-    padding: 5px 10px;
+#withdraw-button, #restart-button {
     background-color: #4CAF50;
-    color: #fff;
+    color: white;
     border: none;
-    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
     cursor: pointer;
 }
 
-#board {
+#game-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
+    grid-template-columns: repeat(5, 100px);
+    grid-template-rows: repeat(5, 100px);
+    grid-gap: 10px;
+    margin: 20px auto;
 }
 
 .square {
     width: 100px;
     height: 100px;
-    background-color: #ddd;
+    background-color: #000;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     font-size: 24px;
-    font-weight: bold;
     cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+}
+
+.mine {
+    background-image: url('https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .robux {
     background-image: url('https://www.alucare.fr/wp-content/uploads/2023/09/LOGO-ROBUX-.jpg');
     background-size: cover;
-    color: transparent;
-}
-
-.bomb {
-    background-image: url('https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png');
-    background-size: contain;
     background-repeat: no-repeat;
-    color: transparent;
 }
