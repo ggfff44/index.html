@@ -6,9 +6,6 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
-
-.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,8 +13,16 @@ body {
     height: 100vh;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
 .brand-logo img {
-    border-radius: 50%; /* Smoothing the edges of the logo */
+    border-radius: 50%;
     max-width: 100px;
     max-height: 100px;
 }
