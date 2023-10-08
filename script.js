@@ -1,111 +1,94 @@
-const robuxCountDisplay = document.getElementById("robux-count");
-const cashOutButton = document.getElementById("cash-out");
-const gameBoard = document.getElementById("game-board");
-const totalCards = 8; // Change the number of cards as needed
+// JavaScript code for the Robux Game
+
 let robuxCount = 0;
-let cardsFlipped = 0;
-let firstCard = null;
-let secondCard = null;
-let lockBoard = false;
+let cards = [];
+let flippedCards = [];
+let canFlip = true;
 
-const robuxImage = "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp"; // Robux image
-const bombImage = "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png"; // Bomb image
+function createCard(imgSrc) {
+  const card = document.createElement("div");
+  card.classList.add("card");
 
-const cards = [];
+  const img = document.createElement("img");
+  img.src = imgSrc;
+  card.appendChild(img);
 
-// Create the game board
-function createBoard() {
-    for (let i = 0; i < totalCards * 2; i++) {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        const img = document.createElement("img");
-        img.src = bombImage; // Initially, all cards have the bomb image
-        card.appendChild(img);
-        card.addEventListener("click", flipCard);
-        cards.push(card);
+  card.addEventListener("click", () => {
+    if (canFlip && !flippedCards.includes(card) && flippedCards.length < 2) {
+      flipCard(card);
+      flippedCards.push(card);
+
+      if (flippedCards.length === 2) {
+        canFlip = false;
+        setTimeout(checkMatch, 1000);
+      }
     }
-    shuffleCards();
-    cards.forEach((card) => gameBoard.appendChild(card));
+  });
+
+  return card;
 }
 
-// Shuffle the cards using the Fisher-Yates algorithm
-function shuffleCards() {
-    for (let i = cards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cards[i], cards[j]] = [cards[j], cards[i]];
-    }
+function flipCard(card) {
+  card.classList.add("flipped");
 }
 
-// Handle card flipping
-function flipCard() {
-    if (lockBoard) return;
-    if (this === firstCard) return;
-    this.classList.add("flipped");
-
-    if (!firstCard) {
-        firstCard = this;
-        return;
-    }
-
-    secondCard = this;
-    checkForMatch();
-}
-
-// Check if the flipped cards are a match
-function checkForMatch() {
-    const isMatch = firstCard.querySelector("img").src === secondCard.querySelector("img").src;
-
-    if (isMatch) {
-        robuxCount += 100;
-        robuxCountDisplay.textContent = `${robuxCount} Robux`;
-        disableCards();
-    } else {
-        unflipCards();
-    }
-}
-
-// Disable cards if they match
-function disableCards() {
-    firstCard.removeEventListener("click", flipCard);
-    secondCard.removeEventListener("click", flipCard);
-
-    cardsFlipped += 2;
-    if (cardsFlipped === totalCards * 2) {
-        robuxCountDisplay.textContent = "Congratulations! You've won!";
-        cashOutButton.style.display = "none";
-    }
-
-    resetBoard();
-}
-
-// Unflip cards if they don't match
 function unflipCards() {
-    lockBoard = true;
-
-    setTimeout(() => {
-        firstCard.classList.remove("flipped");
-        secondCard.classList.remove("flipped");
-        
-        resetBoard();
-    }, 1000);
+  flippedCards.forEach((card) => {
+    card.classList.remove("flipped");
+  });
+  flippedCards = [];
+  canFlip = true;
 }
 
-// Reset the board
-function resetBoard() {
-    [firstCard, secondCard] = [null, null];
-    lockBoard = false;
+function checkMatch() {
+  const [card1, card2] = flippedCards;
+  const img1 = card1.querySelector("img").src;
+  const img2 = card2.querySelector("img").src;
+
+  if (img1 === img2) {
+    robuxCount += 100;
+    document.getElementById("robux-count").textContent = `${robuxCount} Robux`;
+    flippedCards = [];
+  } else {
+    unflipCards();
+  }
 }
 
-// Cash out function
+function initializeGame() {
+  const gameBoard = document.getElementById("game-board");
+
+  // Replace with your image URLs, ensuring you have both Robux and Bomb images.
+  const imageUrls = [
+    "https://media.printables.com/media/prints/128836/images/1234294_ba6edb95-e18f-4feb-a7c1-614c16f4c603/thumbs/inside/1280x960/png/robuxcoin.webp",
+    "https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png",
+  ];
+
+  // Create 9 cards with 4 pairs of images
+  for (let i = 0; i < 4; i++) {
+    imageUrls.forEach((imgSrc) => {
+      const card = createCard(imgSrc);
+      cards.push(card);
+    });
+  }
+
+  // Shuffle the cards
+  cards.sort(() => Math.random() - 0.5);
+
+  // Add cards to the game board
+  cards.forEach((card) => {
+    gameBoard.appendChild(card);
+  });
+}
+
+const cashOutButton = document.getElementById("cash-out");
 cashOutButton.addEventListener("click", () => {
-    if (robuxCount >= 3000) {
-        robuxCount -= 3000;
-        robuxCountDisplay.textContent = `${robuxCount} Robux`;
-        alert("Congratulations! You've cashed out 3000 Robux!");
-    } else {
-        alert("Sorry, you need at least 3000 Robux to cash out.");
-    }
+  if (robuxCount >= 25000) {
+    robuxCount -= 25000;
+    alert("Cash out successful! You now have 25000 Robux.");
+    document.getElementById("robux-count").textContent = `${robuxCount} Robux`;
+  } else {
+    alert("You need at least 25000 Robux to cash out.");
+  }
 });
 
-// Initialize the game
-createBoard();
+initializeGame();
