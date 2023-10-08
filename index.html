@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robux Matching Game</title>
+    <title>Robux Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Robux Matching Game</h1>
-    <p id="robux-count">0 Robux</p>
-    <button id="cash-out">Cash Out (Cost: 3000 Robux)</button>
-    <div id="game-board"></div>
+    <div class="container">
+        <div id="game-board" class="game-board">
+            <!-- Cards will be dynamically added here -->
+        </div>
+        <div class="info">
+            <h1>Robux Game</h1>
+            <p id="robux-count">0 Robux</p>
+            <button id="cash-out">Cash Out</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
