@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#game-container {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#score-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#robux-balance {
+    font-weight: bold;
+}
+
+#withdraw-button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.robux {
+    background-image: url('https://www.alucare.fr/wp-content/uploads/2023/09/LOGO-ROBUX-.jpg');
+    background-size: cover;
+    color: transparent;
+}
+
+.bomb {
+    background-image: url('https://www.dictionary.com/e/wp-content/uploads/2018/07/bomb-emoji.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: transparent;
+}
