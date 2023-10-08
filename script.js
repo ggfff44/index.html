@@ -1,27 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
     const squares = document.querySelectorAll(".square");
     const balanceDisplay = document.getElementById("balance");
-    const restartButton = document.getElementById("restart");
     let balance = 0;
 
-    squares.forEach((square) => {
-        square.addEventListener("click", () => {
-            const value = square.getAttribute("data-value");
+    let bombs = 3;
+    let bombsFound = 0;
 
-            if (value === "robux") {
-                balance += 100;
-            } else if (value === "bomb") {
-                balance -= 80;
+    function reveal(square) {
+        const value = square.getAttribute("data-value");
+
+        if (value === "robux") {
+            balance += 100;
+            square.style.backgroundColor = "#FFD700";
+            square.textContent = "💰";
+        } else if (value === "bomb") {
+            bombsFound++;
+            square.style.backgroundColor = "#FF0000";
+            square.textContent = "💣";
+            if (bombsFound === bombs) {
+                alert("Game Over! You found all the bombs.");
+                restart();
             }
+        }
 
-            square.style.backgroundColor = value === "robux" ? "#FFD700" : "#FF0000";
-            square.textContent = value === "robux" ? "💰" : "💣";
+        balanceDisplay.textContent = balance;
+    }
 
-            balanceDisplay.textContent = balance;
-        });
-    });
-
-    restartButton.addEventListener("click", () => {
+    function restart() {
         squares.forEach((square) => {
             square.style.backgroundColor = "black";
             square.textContent = "";
@@ -29,5 +34,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         balance = 0;
         balanceDisplay.textContent = balance;
+
+        bombsFound = 0;
+        // Randomly shuffle the bomb positions
+        const bombIndices = [...Array(squares.length).keys()];
+        for (let i = bombIndices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bombIndices[i], bombIndices[j]] = [bombIndices[j], bombIndices[i]];
+        }
+
+        // Set bombs
+        for (let i = 0; i < bombs; i++) {
+            const bombIndex = bombIndices[i];
+            squares[bombIndex].setAttribute("data-value", "bomb");
+        }
+    }
+
+    squares.forEach((square) => {
+        square.addEventListener("click", () => {
+            if (square.style.backgroundColor === "black") {
+                reveal(square);
+            }
+        });
     });
+
+    restart();
 });
