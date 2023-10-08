@@ -1,7 +1,6 @@
 const squares = document.querySelectorAll('.square');
 const balanceDisplay = document.getElementById('balance');
-const restartButton = document.getElementById('restart-button');
-
+const restartButton = document.getElementById('restart');
 let balance = 0;
 
 squares.forEach((square) => {
@@ -15,7 +14,7 @@ squares.forEach((square) => {
             balance += 30;
             balanceDisplay.textContent = balance;
             square.style.backgroundColor = 'transparent';
-            square.textContent = '\u{1F4B0}'; // Money bag emoji
+            square.textContent = '';
             square.removeEventListener('click', () => {});
         }
     });
@@ -29,7 +28,6 @@ function restartGame() {
     squares.forEach((square) => {
         square.style.backgroundColor = 'black';
         square.textContent = '';
-        square.setAttribute('data-is-bomb', (Math.random() < 0.3).toString());
         square.addEventListener('click', () => {
             if (square.getAttribute('data-is-bomb') === 'true') {
                 alert('Game Over! You hit a bomb. Your balance will be reset.');
@@ -40,7 +38,7 @@ function restartGame() {
                 balance += 30;
                 balanceDisplay.textContent = balance;
                 square.style.backgroundColor = 'transparent';
-                square.textContent = '\u{1F4B0}'; // Money bag emoji
+                square.textContent = '';
                 square.removeEventListener('click', () => {});
             }
         });
