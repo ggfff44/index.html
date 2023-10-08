@@ -16,9 +16,8 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Center the container contents horizontally */
     margin-top: 20px;
-    margin-left: 20px;
 }
 
 .brand-logo img {
@@ -40,6 +39,7 @@ body {
     background-color: black;
     padding: 10px;
     border-radius: 10px;
+    margin-top: 20px; /* Add some top margin to separate the logo and board */
 }
 
 .square {
