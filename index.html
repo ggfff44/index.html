@@ -2,15 +2,25 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="script.js"></script>
 </head>
 <body>
     <div class="game-container">
-        <div id="balance">Robux: 100</div>
-        <button onclick="startGame()">Play</button>
-        <div id="board">
-            <!-- Squares will be added here dynamically -->
+        <div class="score">Robux: <span id="robux">100</span></div>
+        <div class="board">
+            <!-- 3x3 grid for the game -->
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
+            <div class="square" onclick="reveal(this)"></div>
         </div>
+        <button onclick="startGame()">Start Game</button>
+        <div class="message"></div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
