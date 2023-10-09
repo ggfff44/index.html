@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Mine Bomb Game</title>
 </head>
 <body>
-    <div class="game-container">
-        <div class="score">Robux: <span id="robux">100</span></div>
+    <div class="container">
+        <div class="header">
+            <span class="robux">Robux: <span id="robux-amount">100</span></span>
+        </div>
         <div class="board">
             <!-- 3x3 grid for the game -->
             <div class="square" onclick="reveal(this)"></div>
@@ -18,8 +23,10 @@
             <div class="square" onclick="reveal(this)"></div>
             <div class="square" onclick="reveal(this)"></div>
         </div>
-        <button onclick="startGame()">Start Game</button>
-        <div class="message"></div>
+        <div class="footer">
+            <button onclick="startGame()">Start Game</button>
+            <div class="message"></div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
