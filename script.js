@@ -16,12 +16,19 @@ function startGame(betSize) {
             square.className = "square";
             square.onclick = () => {
                 if (!gameIsOver) {
-                    correctSquares += revealSquare(square, betSize);
-                    if (correctSquares === 9) {
-                        alert("Congratulations! You won.");
-                        robuxBalance += betSize * 100 * 1.10; // Add reward
-                        document.getElementById("robuxBalance").textContent = robuxBalance.toFixed(2);
+                    const result = revealSquare(square, betSize);
+                    if (result === "bomb") {
+                        alert("You hit a bomb! Game over.");
+                        document.getElementById("gameBoard").innerHTML = ""; // Clear the game board
                         gameIsOver = true;
+                    } else if (result === "point") {
+                        correctSquares++;
+                        if (correctSquares === 6) {
+                            alert("Congratulations! You won.");
+                            robuxBalance += betSize * 100 + (betSize * 100 * 0.10 * correctSquares); // Add reward
+                            document.getElementById("robuxBalance").textContent = robuxBalance.toFixed(2);
+                            gameIsOver = true;
+                        }
                     }
                 }
             };
@@ -33,7 +40,7 @@ function startGame(betSize) {
 function revealSquare(square, betSize) {
     // Check if the square has already been revealed
     if (square.textContent !== "") {
-        return 0;
+        return;
     }
 
     // Implement logic to reveal squares and check for bombs or points
@@ -41,11 +48,9 @@ function revealSquare(square, betSize) {
     const randomValue = Math.random();
     if (randomValue < 0.33) {
         square.textContent = "🔥"; // Bomb
-        alert("You hit a bomb! Game over.");
-        document.getElementById("gameBoard").innerHTML = ""; // Clear the game board
-        return 0;
+        return "bomb";
     } else {
         square.textContent = "💰"; // Point
-        return 1; // Return 1 for a correct square
+        return "point";
     }
 }
