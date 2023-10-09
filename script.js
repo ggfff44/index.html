@@ -1,4 +1,4 @@
-let robuxBalance = 100;
+let robuxBalance = 100.00;
 
 // JavaScript code to handle the game logic
 function startGame(betSize) {
@@ -25,7 +25,8 @@ function startGame(betSize) {
                         correctSquares++;
                         if (correctSquares === 6) {
                             alert("Congratulations! You won.");
-                            robuxBalance += betSize * 100 + (betSize * 100 * 0.10 * correctSquares); // Add reward
+                            const reward = betSize * 100 + (betSize * 100 * 0.10 * correctSquares); // Calculate reward
+                            robuxBalance += reward;
                             document.getElementById("robuxBalance").textContent = robuxBalance.toFixed(2);
                             gameIsOver = true;
                         }
