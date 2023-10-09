@@ -1,16 +1,13 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: url("https://www.twinspires.com/wp-content/uploads/2021/12/Middle-Hero-1.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     text-align: center;
 }
 
 .container {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: #fff;
     border-radius: 10px;
     margin: 100px auto;
     padding: 20px;
