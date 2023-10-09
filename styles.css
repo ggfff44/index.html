@@ -1,60 +1,41 @@
 body {
-    font-family: Arial, sans-serif;
+    background-image: url('https://www.twinspires.com/wp-content/uploads/2021/12/Middle-Hero-1.jpg');
+    background-size: cover;
     margin: 0;
     padding: 0;
-    background-image: url('https://i.pinimg.com/originals/66/14/b5/6614b5564b7874dcfb2bed2a321821c1.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-.container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
 }
 
-.balance {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: white;
+.game-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
 }
 
-.board {
+#board {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-gap: 10px;
-    background-color: black;
-    padding: 10px;
-    border-radius: 10px;
+    margin-top: 20px;
 }
 
 .square {
     width: 100px;
     height: 100px;
     background-color: black;
-    cursor: pointer;
+    border: 2px solid white;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     font-size: 24px;
-    color: grey;
-    border-radius: 5px;
-}
-
-#restart {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #3498db;
     color: white;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
-#restart:hover {
-    background-color: #2980b9;
+#balance {
+    float: right;
 }
-
