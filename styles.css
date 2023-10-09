@@ -1,41 +1,77 @@
-body {
-    background-image: url('https://www.twinspires.com/wp-content/uploads/2021/12/Middle-Hero-1.jpg');
-    background-size: cover;
+/* Reset some default styles */
+body, html {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
 }
 
+/* Apply background image to the entire page */
+body {
+    background-image: url("https://www.twinspires.com/wp-content/uploads/2021/12/Middle-Hero-1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+}
+
+/* Style the game container */
 .game-container {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
     text-align: center;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.7); /* Add transparency */
     border-radius: 10px;
+    width: 300px;
 }
 
-#board {
+/* Style the game board */
+.board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     margin-top: 20px;
 }
 
+/* Style individual squares */
 .square {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background-color: black;
     border: 2px solid white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
     color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
 }
 
-#balance {
-    float: right;
+/* Style the score display */
+.score {
+    font-size: 18px;
+    margin-bottom: 10px;
 }
+
+/* Style the message display */
+.message {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* Style the start game button */
+button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Add hover effect to button */
+button:hover {
+    background-color: #005E85;
+}
+
+/* Add more specific styling and animations as needed */
