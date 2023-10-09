@@ -1,29 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-    <title>Robux Game</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="balance">Balance: <span id="balance">0</span> Robux</div>
-        <div class="board">
-            <div class="square" data-is-bomb="false"></div>
-            <div class="square" data-is-bomb="false"></div>
-            <div class="square" data-is-bomb="false"></div>
-            <div class="square" data-is-bomb="false"></div>
-            <div class="square" data-is-bomb="false"></div>
-            <div class="square" data-is-bomb="false"></div>
-            <div class="square" data-is-bomb="true"></div>
-            <div class="square" data-is-bomb="true"></div>
-            <div class="square" data-is-bomb="true"></div>
+    <div class="game-container">
+        <div id="balance">Robux: 100</div>
+        <button onclick="startGame()">Play</button>
+        <div id="board">
+            <!-- Squares will be added here dynamically -->
         </div>
-        <button id="restart">Restart</button>
     </div>
 </body>
 </html>
-
-
