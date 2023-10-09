@@ -1,55 +1,39 @@
+// Define game variables
 let robux = 100;
-let betSize = 0;
+let isGameStarted = false;
 
+// Function to start the game
 function startGame() {
-    // Get the selected bet size
-    const betRadio = document.querySelector('input[name="bet"]:checked');
-    betSize = parseFloat(betRadio.value);
-
-    if (robux >= betSize) {
-        robux -= betSize;
-        updateBalance();
-
-        const board = document.getElementById('board');
-        board.innerHTML = '';
-        
-        for (let i = 0; i < 9; i++) {
-            const square = document.createElement('div');
-            square.className = 'square';
-            square.addEventListener('click', revealSquare);
-            board.appendChild(square);
-        }
-    } else {
-        alert("Not enough Robux to bet!");
+    if (!isGameStarted) {
+        isGameStarted = true;
+        // Reset the board and shuffle bombs and points
+        resetBoard();
+        // Update the displayed robux
+        updateRobux();
     }
 }
 
-function revealSquare(event) {
-    const square = event.target;
-    const randomNumber = Math.random();
+// Function to reset the game board
+function resetBoard() {
+    // Your code to shuffle bombs and points
+    // ...
+}
 
-    if (randomNumber < 0.3) {
-        square.textContent = '🔥'; // Bomb
-        endGame();
-    } else {
-        square.textContent = '💰'; // Point
-        robux += betSize * 2;
-        updateBalance();
+// Function to reveal a square when clicked
+function reveal(square) {
+    if (isGameStarted) {
+        // Your code to handle revealing squares
+        // ...
     }
-
-    square.style.backgroundColor = 'transparent';
-    square.style.border = 'none';
 }
 
-function endGame() {
-    setTimeout(() => {
-        alert('Game over! You hit a bomb.');
-        robux -= betSize;
-        updateBalance();
-        startGame();
-    }, 1000);
+// Function to update the displayed robux
+function updateRobux() {
+    document.getElementById("robux").textContent = robux;
 }
 
-function updateBalance() {
-    document.getElementById('balance').textContent = `Robux: ${robux}`;
-}
+// Implement the logic for betting and winning robux here
+// ...
+
+// Implement the logic for game over, winning, and losing here
+// ...
