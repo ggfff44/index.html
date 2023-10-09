@@ -1,24 +1,3 @@
-// JavaScript code to handle the game logic
-function startGame(betSize) {
-    // Reset the game board
-    document.getElementById("gameBoard").innerHTML = "";
-    
-    // Create a new game board with 3x3 squares
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            const square = document.createElement("div");
-            square.className = "square";
-            square.setAttribute("data-value", ""); // Add a data attribute to store square value
-            square.onclick = () => revealSquare(square, betSize);
-            document.getElementById("gameBoard").appendChild(square);
-        }
-    }
-    
-    // Handle bets and game logic here
-    const robuxBalance = document.getElementById("robuxBalance");
-    robuxBalance.textContent = parseFloat(robuxBalance.textContent) - (betSize * 100);
-}
-
 function revealSquare(square, betSize) {
     // Check if the square has already been revealed
     if (square.getAttribute("data-value") !== "") {
@@ -37,7 +16,17 @@ function revealSquare(square, betSize) {
     // Update the data-value attribute to indicate the square has been revealed
     square.setAttribute("data-value", square.textContent);
 
-    // Check if the player has lost and end the game
+    // Check if the player has hit a point
+    if (square.textContent === "💰") {
+        // Calculate the reward based on the bet size and add it to the player's balance
+        const reward = betSize * 100 * 2; // Double the bet size
+        const robuxBalanceElement = document.getElementById("robuxBalance");
+        const currentBalance = parseFloat(robuxBalanceElement.textContent);
+        const newBalance = currentBalance + reward;
+        robuxBalanceElement.textContent = newBalance.toFixed(2);
+    }
+
+    // Check if the player has hit a bomb and end the game
     if (square.textContent === "🔥") {
         alert("You hit a bomb! Game over.");
         document.getElementById("gameBoard").innerHTML = ""; // Clear the game board
